@@ -43,7 +43,7 @@ class PostsService {
         logger.log(res.data)
         let indexToEdit = AppState.posts.findIndex(post => post.id == postId)
         if (indexToEdit >= 0) {
-            AppState.posts.splice(indexToEdit, 1, res.data)
+            AppState.posts.splice(indexToEdit, 1, new Post(res.data))
         }
     }
 }
