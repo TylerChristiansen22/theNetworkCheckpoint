@@ -9,7 +9,7 @@
                 <div v-if="profile.graduated" class="col-6 ms-5">
                     <span class="bg-dark">This user is an Alumni of Class: {{ profile.class }}</span>
                 </div>
-                <div class="col-6 ms-5">
+                <div class="col-6 ms-5 mt-1">
                     <span class="bg-dark">{{ profile.bio }}</span>
                 </div>
                 <div class="col-6 ms-5">
