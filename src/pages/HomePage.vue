@@ -1,5 +1,10 @@
 <template>
   <div class="container-fluid">
+    <div v-if="account">
+      <div class="fs-2">Create a Post!</div>
+      <PostForm />
+    </div>
+
     <div v-for="post in posts" :key="post.id">
       <PostCard :post="post" />
     </div>
@@ -40,7 +45,8 @@ export default {
       },
       posts: computed(() => AppState.posts),
       pageNumber: computed(() => AppState.pageNumber),
-      totalPages: computed(() => AppState.totalPages)
+      totalPages: computed(() => AppState.totalPages),
+      account: computed(() => AppState.account)
     }
   }
 }

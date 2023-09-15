@@ -7,6 +7,7 @@
             </RouterLink>
             <p>Post made on: {{ post.createdAt }}</p>
             <p>{{ post.body }}</p>
+            <img :src="post.imgUrl" alt="Someone posted a bad img">
             <div class="row text-end">
                 <p><i class="mdi mdi-heart-outline"></i> {{ post.likes.length }}</p>
             </div>

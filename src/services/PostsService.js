@@ -26,6 +26,11 @@ class PostsService {
         AppState.pageNumber = res.data.page
         AppState.totalPages = res.data.totalPages
     }
+    async createPost(postData) {
+        const res = await api.post('api/posts', postData)
+        const newPost = new Post(res.data)
+        AppState.posts.unshift(newPost)
+    }
 }
 
 export const postsService = new PostsService
