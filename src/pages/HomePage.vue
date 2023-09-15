@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div v-if="account">
+    <div v-if="user.isAuthenticated">
       <div class="fs-2">Create a Post!</div>
       <PostForm />
     </div>
@@ -46,7 +46,7 @@ export default {
       posts: computed(() => AppState.posts),
       pageNumber: computed(() => AppState.pageNumber),
       totalPages: computed(() => AppState.totalPages),
-      account: computed(() => AppState.account)
+      user: computed(() => AppState.user)
     }
   }
 }
