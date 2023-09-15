@@ -9,7 +9,7 @@
             <p>{{ post.body }}</p>
             <img :src="post.imgUrl" alt="Someone posted a bad img">
             <div class="row text-end">
-                <p><i class="mdi mdi-heart-outline"></i> {{ post.likes.length }}</p>
+                <p><i @click="likePost" class="selectable mdi mdi-heart-outline"></i> {{ post.likes.length }}</p>
                 <span @click="deletePost" v-if="post.creatorId == account.id" class="selectable"><i
                         class="mdi mdi-delete-forever"></i></span>
             </div>
@@ -37,6 +37,14 @@ export default {
                         await postsService.deletePost(postId)
                         Pop.success('Deleted Post!')
                     }
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+            async likePost() {
+                try {
+                    const postId = props.post.id
+                    await postsService.likePost(postId)
                 } catch (error) {
                     Pop.error(error)
                 }

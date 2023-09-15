@@ -38,6 +38,14 @@ class PostsService {
             AppState.posts.splice(indexToRemove, 1)
         }
     }
+    async likePost(postId) {
+        const res = await api.post(`api/posts/${postId}/like`)
+        logger.log(res.data)
+        let indexToEdit = AppState.posts.findIndex(post => post.id == postId)
+        if (indexToEdit >= 0) {
+            AppState.posts.splice(indexToEdit, 1, res.data)
+        }
+    }
 }
 
 export const postsService = new PostsService
