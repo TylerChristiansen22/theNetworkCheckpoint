@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 
+
 // NOTE AppState is a reactive object to contain app level data
 export const AppState = reactive({
   user: {},
@@ -13,5 +14,8 @@ export const AppState = reactive({
   pageNumber: 1,
 
   /** @type {Number} */
-  totalPages: 1
+  totalPages: 1,
+
+  /** @type {import('./models/Profile.js').Profile} */
+  activeProfile: null
 })
