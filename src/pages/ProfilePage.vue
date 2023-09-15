@@ -6,20 +6,29 @@
                     <img class="profile-pic ms-5 mt-1" :src="profile.picture" :alt="profile.name">
                     <p class="mt-5 ms-2 fs-3">{{ profile.name }}</p>
                 </div>
-                <div class="col-6 ms-5 card">
-                    <p>{{ profile.bio }}</p>
+                <div v-if="profile.graduated" class="col-6 ms-5">
+                    <span class="bg-dark">This user is an Alumni of Class: {{ profile.class }}</span>
+                </div>
+                <div class="col-6 ms-5">
+                    <span class="bg-dark">{{ profile.bio }}</span>
+                </div>
+                <div class="col-6 ms-5">
+                    <a v-if="profile.github" :href="profile.github" target="_blank"><i
+                            class="mdi mdi-github bg-dark"></i></a>
+                    <a v-if="profile.linkedin" :href="profile.linkedin" target="_blank"><i
+                            class="mdi mdi-linkedin bg-dark"></i></a>
                 </div>
             </div>
             <div v-for="post in posts" :key="post.id" class="col-12">
                 <PostCard :post="post" />
             </div>
         </section>
-        <!-- <section class="row justify-content-center">
+        <section v-if="totalPages > 1" class="row justify-content-center">
             <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-2 btn btn-success"><i
                     class="mdi mdi-arrow-left"></i>Newer</button>
             <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
                 class="offset-md-1 col-2 btn btn-success">Older<i class="mdi mdi-arrow-right"></i></button>
-        </section> -->
+        </section>
 
     </div>
 </template>
@@ -57,7 +66,7 @@ export default {
         return {
             async changePage(number) {
                 try {
-                    await postsService.changePage(`api/posts?page=${number}`)
+                    await postsService.changePage(`api/posts?creatorId=${this.profile.id}&page=${number}`)
                 } catch (error) {
                     Pop.error(error)
                 }
@@ -65,7 +74,9 @@ export default {
             posts: computed(() => AppState.posts),
             profile: computed(() => AppState.activeProfile),
             account: computed(() => AppState.account),
-            coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`)
+            coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
+            pageNumber: computed(() => AppState.pageNumber),
+            totalPages: computed(() => AppState.totalPages)
         }
     }
 };
