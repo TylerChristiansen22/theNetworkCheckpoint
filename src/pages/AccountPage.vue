@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid bg-primary">
     <section class="row">
       <div class="col-4">
         <h3>Welcome {{ account.name }}</h3>
