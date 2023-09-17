@@ -1,5 +1,5 @@
 <template>
-    <div v-if="profile" class="container-fluid">
+    <div v-if="profile" class="container-fluid bg-primary">
         <section class="row">
             <div class="cover-img">
                 <div class="col-12 d-flex">
