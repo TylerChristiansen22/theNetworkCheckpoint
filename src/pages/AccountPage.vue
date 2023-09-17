@@ -31,19 +31,34 @@
         </form>
       </div>
     </section>
+    <div v-for="ad in ads" :key="ad.id">
+      <AdCard :ad="ad" />
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 import { AppState } from '../AppState';
 import { useRouter } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import { accountService } from '../services/AccountService.js';
+import { adsService } from '../services/AdsService.js';
 export default {
   setup() {
     const editable = ref({})
     const router = useRouter()
+
+    onMounted(() => {
+      getAds()
+    })
+    async function getAds() {
+      try {
+        await adsService.getAds()
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
 
     watchEffect(() => {
       AppState.account
@@ -52,6 +67,7 @@ export default {
     return {
       editable,
       account: computed(() => AppState.account),
+      ads: computed(() => AppState.ads),
       async editProfile() {
         try {
           await accountService.editProfile(editable.value)

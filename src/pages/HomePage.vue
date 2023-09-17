@@ -29,8 +29,8 @@ import { adsService } from '../services/AdsService.js';
 export default {
   setup() {
     onMounted(() => {
-      getPosts(),
-        getAds()
+      getPosts();
+      getAds()
     })
     async function getPosts() {
       try {

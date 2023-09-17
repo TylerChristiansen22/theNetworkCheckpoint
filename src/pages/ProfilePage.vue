@@ -21,6 +21,9 @@
             </div>
             <div v-for="post in posts" :key="post.id" class="col-12">
                 <PostCard :post="post" />
+                <div v-for="ad in ads" :key="ad.id">
+                    <AdCard :ad="ad" />
+                </div>
             </div>
         </section>
         <section v-if="totalPages > 1" class="row justify-content-center">
@@ -41,12 +44,14 @@ import { computed, reactive, onMounted } from 'vue';
 import Pop from '../utils/Pop.js';
 import { profilesService } from '../services/ProfilesService.js'
 import { postsService } from '../services/PostsService.js';
+import { adsService } from '../services/AdsService.js';
 
 export default {
     setup() {
         onMounted(() => {
             getProfileById();
-            getPostsByProfileId()
+            getPostsByProfileId();
+            getAds()
         })
         const route = useRoute()
         async function getProfileById() {
@@ -59,6 +64,13 @@ export default {
         async function getPostsByProfileId() {
             try {
                 await postsService.getPostsByProfileId(route.params.profileId)
+            } catch (error) {
+                Pop.error(error)
+            }
+        }
+        async function getAds() {
+            try {
+                await adsService.getAds()
             } catch (error) {
                 Pop.error(error)
             }
@@ -76,7 +88,8 @@ export default {
             account: computed(() => AppState.account),
             coverImg: computed(() => `url(${AppState.activeProfile?.coverImg})`),
             pageNumber: computed(() => AppState.pageNumber),
-            totalPages: computed(() => AppState.totalPages)
+            totalPages: computed(() => AppState.totalPages),
+            ads: computed(() => AppState.ads)
         }
     }
 };
