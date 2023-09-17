@@ -14,6 +14,9 @@
       <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
         class="offset-md-1 col-2 btn btn-success">Older<i class="mdi mdi-arrow-right"></i></button>
     </section>
+    <div v-for="ad in ads" :key="ad.id">
+      <AdCard :ad="ad" />
+    </div>
   </div>
 </template>
 
@@ -22,15 +25,24 @@ import { computed, onMounted } from 'vue';
 import Pop from '../utils/Pop.js';
 import { postsService } from '../services/PostsService.js'
 import { AppState } from '../AppState.js';
+import { adsService } from '../services/AdsService.js';
 
 export default {
   setup() {
     onMounted(() => {
-      getPosts()
+      getPosts(),
+        getAds()
     })
     async function getPosts() {
       try {
         await postsService.getPosts()
+      } catch (error) {
+        Pop.error(error)
+      }
+    }
+    async function getAds() {
+      try {
+        await adsService.getAds()
       } catch (error) {
         Pop.error(error)
       }
@@ -46,7 +58,8 @@ export default {
       posts: computed(() => AppState.posts),
       pageNumber: computed(() => AppState.pageNumber),
       totalPages: computed(() => AppState.totalPages),
-      user: computed(() => AppState.user)
+      user: computed(() => AppState.user),
+      ads: computed(() => AppState.ads)
     }
   }
 }
