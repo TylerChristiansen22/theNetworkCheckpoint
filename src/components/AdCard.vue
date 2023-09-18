@@ -1,9 +1,11 @@
 <template>
-    <section class="row">
-        <div class="col-12 d-flex justify-content-center">
-            <img :src="ad.banner" :alt="ad.title">
-        </div>
-    </section>
+    <div class="container-fluid">
+        <section class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <img :src="ad.banner" :alt="ad.title">
+            </div>
+        </section>
+    </div>
 </template>
 
 

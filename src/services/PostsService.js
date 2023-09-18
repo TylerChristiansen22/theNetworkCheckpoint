@@ -46,6 +46,18 @@ class PostsService {
             AppState.posts.splice(indexToEdit, 1, new Post(res.data))
         }
     }
+    async searchPosts(searchTerm) {
+        const res = await api.get(`api/posts?query=${searchTerm}`)
+        logger.log(res.data)
+        AppState.totalPages = res.data.totalPages
+        AppState.pageNumber = res.data.page
+        AppState.searchTerm = searchTerm
+        AppState.posts = res.data.posts.map(post => new Post(post))
+    }
+    async clearSearch() {
+        AppState.searchTerm = ''
+        await postsService.getPosts()
+    }
 }
 
 export const postsService = new PostsService

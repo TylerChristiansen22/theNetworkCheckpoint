@@ -4,18 +4,29 @@
       <div class="fs-2">Create a Post!</div>
       <PostForm />
     </div>
+    <div>
+      Search for a post:
+      <SearchBar />
+    </div>
     <div v-for="post in posts" :key="post.id">
       <PostCard :post="post" />
       <div v-for="ad in ads" :key="ad.id">
         <AdCard :ad="ad" />
       </div>
     </div>
-    <section class="row justify-content-center">
+    <section v-if="!searchTerm" class="row justify-content-center">
       <button @click="changePage(pageNumber - 1)" :disabled="pageNumber <= 1" class="col-2 btn btn-success"><i
           class="mdi mdi-arrow-left"></i>Newer</button>
       <button @click="changePage(pageNumber + 1)" :disabled="pageNumber >= totalPages"
         class="offset-md-1 col-2 btn btn-success">Older<i class="mdi mdi-arrow-right"></i></button>
     </section>
+    <section v-else class="row justify-content-center mb-2">
+      <button @click="changePageWithSearch(pageNumber - 1)" :disabled="pageNumber <= 1"
+        class="col-2 btn btn-success">Newer <i class="mdi mdi-arrow-left"></i></button>
+      <button @click="changePageWithSearch(pageNumber + 1)" :disabled="pageNumber >= totalPages"
+        class="offset-md-1 col-2 btn btn-success">Older <i class="mdi mdi-arrow-right"></i></button>
+    </section>
+
   </div>
 </template>
 
@@ -54,11 +65,20 @@ export default {
           Pop.error(error)
         }
       },
+      async changePageWithSearch(number) {
+        try {
+          const searchTerm = AppState.searchTerm
+          await postsService.changePage(`api/posts?query=${searchTerm}&page=${number}`)
+        } catch (error) {
+          Pop.error(error)
+        }
+      },
       posts: computed(() => AppState.posts),
       pageNumber: computed(() => AppState.pageNumber),
       totalPages: computed(() => AppState.totalPages),
       user: computed(() => AppState.user),
-      ads: computed(() => AppState.ads)
+      ads: computed(() => AppState.ads),
+      searchTerm: computed(() => AppState.searchTerm)
     }
   }
 }
